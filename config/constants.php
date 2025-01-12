@@ -8,6 +8,7 @@ return [
     'min_password_length' => 6,
 
     'translation_files' => [
-        'messages.php'
+        'messages.php',
+        'validation.php'
     ],
 ];
