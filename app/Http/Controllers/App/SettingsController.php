@@ -35,7 +35,7 @@ class SettingsController extends Controller {
             Cache::forget($this->cacheKey);
 
             // Reload all data from the database and put it in the cache
-            $settings = Settings::all();
+            $settings = Settings::pluck('value', 'name')->toArray();
             Cache::put($this->cacheKey, $settings, now()->addMinutes(60));
 
             return response()->json([

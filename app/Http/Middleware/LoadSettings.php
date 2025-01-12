@@ -6,15 +6,23 @@ use App\Models\Settings;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class LoadSettings {
+    private $cacheKey = 'settings_all';
+
     public function handle(Request $request, Closure $next) {
         try {
             // Fetch the bank settings
-            $settings = Settings::pluck('value', 'name')->toArray();
+            $settings = Cache::get($this->cacheKey);
+
+            if(!$settings) {
+                $settings = Settings::pluck('value', 'name')->toArray();
+                Cache::put('settings_all', $settings, now()->addMinutes(60));
+            }
 
             // Set the language (if found in the database, otherwise 'pt-br')
             $this->setLocale($settings);
