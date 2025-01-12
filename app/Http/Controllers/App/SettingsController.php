@@ -7,6 +7,8 @@ use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 class SettingsController extends Controller {
     private $cacheKey = 'settings_all';
@@ -37,7 +39,7 @@ class SettingsController extends Controller {
             Cache::put($this->cacheKey, $settings, now()->addMinutes(60));
 
             return response()->json([
-                'message' => 'Configuração atualizada com sucesso!',
+                'message' => SETTINGS_UPDATE_SUCCESSFULLY,
                 'data' => $settings
             ]);
     
@@ -48,7 +50,7 @@ class SettingsController extends Controller {
             ]);
 
             return response()->json([
-                'error' => 'Ops, ocorreu um erro, tente novamente.',
+                'error' => FATAL_ERROR_MESSAGE,
                 'message' => $e->getMessage(), 
             ], 500);
         }
@@ -59,6 +61,9 @@ class SettingsController extends Controller {
      */
     public function fetchAll(Request $request) {
         try {
+            $locale = App::getLocale();
+            $timezone = Config::get('app.timezone');
+
             $settings = Cache::remember($this->cacheKey, 60, function() {
                 return Settings::all();
             });
@@ -68,11 +73,10 @@ class SettingsController extends Controller {
         } catch (\Exception $e) {
             Log::error('Error fetching settings', [
                 'message' => $e->getMessage(),
-                'request_data' => $request->all()
             ]);
 
             return response()->json([
-                'error' => 'Ops, ocorreu um erro, tente novamente.',
+                'error' => FATAL_ERROR_MESSAGE,
             ], 500);
         }
     }
