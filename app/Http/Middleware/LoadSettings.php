@@ -40,9 +40,17 @@ class LoadSettings {
                 'request_data' => $request->all()
             ]);
 
-            return response()->json([
-                'message' => 'Oops, an error occurred, please try again.'
+            if($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Oops, an error occurred, please try again.'
+                ], 500);
+            }
+
+            return response()->view('errors.general', [
+                'error' => 'Oops, an error occurred, please try again.'
             ], 500);
+
+            return $next($request);
         }
     }
 
