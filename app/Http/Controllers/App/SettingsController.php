@@ -61,9 +61,6 @@ class SettingsController extends Controller {
      */
     public function fetchAll(Request $request) {
         try {
-            $locale = App::getLocale();
-            $timezone = Config::get('app.timezone');
-
             $settings = Cache::remember($this->cacheKey, 60, function() {
                 return Settings::all();
             });
