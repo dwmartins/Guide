@@ -56,7 +56,7 @@ class SettingsController extends Controller {
             ]);
 
             return response()->json([
-                'error' => trans('fatal_error_message'),
+                'error' => trans('messages.fatal_error_message'),
                 'message' => $e->getMessage(), 
             ], 500);
         }
@@ -79,7 +79,7 @@ class SettingsController extends Controller {
             ]);
 
             return response()->json([
-                'error' => trans('fatal_error_message'),
+                'error' => trans('messages.fatal_error_message'),
             ], 500);
         }
     }
