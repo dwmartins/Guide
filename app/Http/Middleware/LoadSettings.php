@@ -21,7 +21,7 @@ class LoadSettings {
 
             if(!$settings) {
                 $settings = Settings::pluck('value', 'name')->toArray();
-                Cache::put('settings_all', $settings, now()->addMinutes(60));
+                Cache::put('settings_all', $settings, now()->addMinutes(config('constants.cache_time')));
             }
 
             // Set the language (if found in the database, otherwise 'pt-br')

@@ -38,7 +38,7 @@ class SettingsController extends Controller {
 
             // Reload all data from the database and put it in the cache
             $settings = Settings::pluck('value', 'name')->toArray();
-            Cache::put($this->cacheKey, $settings, now()->addMinutes(60));
+            Cache::put($this->cacheKey, $settings, now()->addMinutes(config('constants.cache_time')));
 
             if($values['name'] === 'language') {
                 $message = trans('messages.language_updated_successfully', [], $values['value']);
@@ -67,7 +67,7 @@ class SettingsController extends Controller {
      */
     public function fetchAll(Request $request) {
         try {
-            $settings = Cache::remember($this->cacheKey, 60, function() {
+            $settings = Cache::remember($this->cacheKey, config('constants.cache_time'), function() {
                 return Settings::all();
             });
 
