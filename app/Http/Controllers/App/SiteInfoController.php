@@ -54,6 +54,9 @@ class SiteInfoController extends Controller {
                 $siteInfo->update($validatedData);
             }
 
+            Cache::forget($this->cacheKey);
+            Cache::put($this->cacheKey, $siteInfo, now()->addMinutes(config('constants.cache_time')));
+
             return response()->json([
                 'message' => trans('messages.site_information_updated_successfully')
             ]);
