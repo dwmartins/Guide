@@ -50,14 +50,35 @@ class LoadSettings {
         $locale = $settings['language'] ?? 'pt-br';
         App::setLocale($locale);
 
-        $translationsPath = resource_path('lang/' . $locale . '.php');
+        $translationsDir  = base_path('lang/' . $locale);
         
-        if (!File::exists($translationsPath)) {
-            $errorMessage = "Translation file for language {$locale} not found at $translationsPath";
+        // Check if the translations folder for the language exists
+        if (!File::isDirectory($translationsDir)) {
+            $errorMessage = "Translation directory  for language {$locale} not found at $translationsDir";
             Log::error($errorMessage);
             throw new \Exception($errorMessage);
-        } else {
-            include($translationsPath);
+        }
+
+        // Check if the main translation file exists
+        $translationsPath = $translationsDir . '/messages.php';
+        if (!File::exists($translationsPath)) {
+            $errorMessage = "Translation file for language {$locale} not found at {$translationsPath}";
+            Log::error($errorMessage);
+            throw new \Exception($errorMessage);
+        }
+
+
+        // Check and load additional translation files if needed
+        // Example: Checking extra files like "errors.php", "validation.php", etc.
+        $additionalFiles = config('constants.translation_files', []);
+
+        if(!empty($additionalFiles)) {
+            foreach ($additionalFiles as $file) {
+                $filePath = $translationsDir . '/' . $file;
+                if (!File::exists($filePath)) {
+                    Log::warning("Optional translation file {$file} not found at {$filePath}");
+                }
+            }
         }
     }
 

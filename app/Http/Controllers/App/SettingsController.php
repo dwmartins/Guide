@@ -20,6 +20,8 @@ class SettingsController extends Controller {
      * @return Response 
      */
     public function update(Request $request) {
+        $message = trans('messages.settings_update_successfully');
+
         $values = $request->validate([
             'name' => 'required',
             'value' => 'required'
@@ -38,8 +40,12 @@ class SettingsController extends Controller {
             $settings = Settings::pluck('value', 'name')->toArray();
             Cache::put($this->cacheKey, $settings, now()->addMinutes(60));
 
+            if($values['name'] === 'language') {
+                $message = trans('messages.language_updated_successfully', [], $values['value']);
+            }
+
             return response()->json([
-                'message' => SETTINGS_UPDATE_SUCCESSFULLY,
+                'message' => $message,
                 'data' => $settings
             ]);
     
@@ -50,7 +56,7 @@ class SettingsController extends Controller {
             ]);
 
             return response()->json([
-                'error' => FATAL_ERROR_MESSAGE,
+                'error' => trans('fatal_error_message'),
                 'message' => $e->getMessage(), 
             ], 500);
         }
@@ -73,7 +79,7 @@ class SettingsController extends Controller {
             ]);
 
             return response()->json([
-                'error' => FATAL_ERROR_MESSAGE,
+                'error' => trans('fatal_error_message'),
             ], 500);
         }
     }
