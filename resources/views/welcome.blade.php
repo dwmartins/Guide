@@ -19,6 +19,7 @@
 </head>
 <body>
     <div id="app"></div>
+    <div id="loadingPage"></div>
 
     @vite([
         'resources/css/app.css', 

@@ -1,28 +1,46 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import PublicLayout from '../layouts/PublicLayout.vue';
 import HomeView from '../views/public/homeView.vue';
-import Login from '../views/admin/Login.vue';
+import { loadingPageStore } from '../store/loadingPageStore';
+import { trans } from '../translation';
 
-const routes = [
-    {
-        path: "/",
-        component: PublicLayout,
-        children: [
-            {
-                path: "",
-                component: HomeView
+let router = null;
+
+export function initializeRoutes() {
+    const routes = [
+        {
+            path: "/",
+            component: PublicLayout,
+            children: [
+                {
+                    path: "",
+                    component: HomeView
+                }
+            ]
+        },
+        {
+            path: trans("ADMIN_PATH_LOGIN"),
+            component: () => import("@/views/admin/auth/LoginView.vue")
+        }
+    ];
+
+    router = createRouter({
+        history: createWebHistory(),
+        routes,
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+              return savedPosition;
+            } else {
+              return { top: 0 };
             }
-        ]
-    },
-    {
-        path: "/app/login",
-        component: Login
-    }
-]
+        }
+    });
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-});
+    router.afterEach(() => {
+        loadingPageStore.hide()
+    });
 
-export default router;
+    return router;  
+}
+
+export { router };
