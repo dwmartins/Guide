@@ -1,4 +1,5 @@
 <script setup>
+import AppFooter from '../components/public/AppFooter.vue';
 import AppHeader from '../components/public/AppHeader.vue';
 
 </script>
@@ -9,5 +10,6 @@ import AppHeader from '../components/public/AppHeader.vue';
         <main>
             <router-view></router-view>
         </main>
+        <AppFooter/>
     </section>
 </template>
