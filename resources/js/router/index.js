@@ -64,10 +64,10 @@ export function initializeRoutes() {
     });
 
     router.beforeEach((to, from, next) => {
+        console.log("aqui")
         const { requiresAuth, requiresAuthAdmin } = to.meta;
         const isEnteringApp = to.path.startsWith('/app') && !from.path.startsWith('/app');
         const maintenanceMode = settingsStore.getSetting('maintenance') === "on";
-
         // checks if an imported component for better performance and adds a loader
         if(to.meta.isImport) {
             loadingPageStore.show();
@@ -156,18 +156,6 @@ export function initializeRoutes() {
                 .catch(redirectToLoginAdmin);
         } else {
             next();
-        }
-    });
-
-    router = createRouter({
-        history: createWebHistory(),
-        routes,
-        scrollBehavior(to, from, savedPosition) {
-            if (savedPosition) {
-              return savedPosition;
-            } else {
-              return { top: 0 };
-            }
         }
     });
 
