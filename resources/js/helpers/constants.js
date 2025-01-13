@@ -1,6 +1,6 @@
 export const API_URL = "/api";
 export const allowedRoles = ["support", "admin", "mod", "test", "visitor"];
-export const hasAccessToTheApp = ["support", "admin", "mod"];
+export const hasAccessToTheApp = ["support", "admin", "mod", "test"];
 
 export const ACCEPT_IMAGES_TO_INPUT = "image/jpeg, image/jpg, image/png";
 export const ACCEPT_IMAGES_VALIDATION = ["image/jpeg", "image/jpg", "image/png"];
