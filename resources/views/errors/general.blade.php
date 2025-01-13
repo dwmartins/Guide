@@ -42,7 +42,7 @@
 </head>
 <body>
     <section class="error-page">
-        <img src="{{ asset('images/svg/error.svg') }}" alt="Error">
+        <img src="{{ asset('assets/svg/error.svg') }}" alt="Error">
         <h1>{{ $error }}</h1>
         <p>We're already working on it!</p>
     </section>

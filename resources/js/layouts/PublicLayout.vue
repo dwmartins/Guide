@@ -1,13 +1,11 @@
 <script setup>
+import AppHeader from '../components/public/AppHeader.vue';
+
 </script>
 
 <template>
-    <section class="position-relative m-0 p-0">
-        <nav>
-            <ul>
-                <li><router-link to="/app/entrar">Login</router-link></li>
-            </ul>
-        </nav>
+    <section class="publicLayout position-relative m-0 p-0">
+        <AppHeader/>
         <main>
             <router-view></router-view>
         </main>
