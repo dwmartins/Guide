@@ -15,11 +15,11 @@ export const MAX_ICO_SIZE = 2;
 
 export const MIN_PASSWORD_LENGTH = 6;
 
-export const DEFAULT_LOGO = "/assets/images/default/logo.png";
-export const DEFAULT_COVER = "/assets/images/default/coverImage.jpg";
-export const DEFAULT_ICO = "/assets/images/default/ico.ico";
-export const DEFAULT_IMG = "/assets/images/default/defaultImg.png";
-export const DEFAULT_IMG_USER = "/assets/images/default/user.jpg";
+export const DEFAULT_LOGO = new URL('@assets/images/default/logo.png', import.meta.url).href;
+export const DEFAULT_COVER = new URL('@assets/images/default/coverImage.jpg', import.meta.url).href;
+export const DEFAULT_ICO = new URL('@assets/images/default/ico.ico', import.meta.url).href;
+export const DEFAULT_IMG = new URL('@assets/images/default/defaultImg.png', import.meta.url).href;
+export const DEFAULT_IMG_USER = new URL('@assets/images/default/user.jpg', import.meta.url).href;
 
 
 export const UPLOADS_BASE_URL = `${API_URL}/uploads`;

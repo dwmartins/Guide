@@ -21,7 +21,16 @@ export function initializeRoutes() {
         {
             path: trans("ADMIN_PATH_LOGIN"),
             component: () => import("@/views/admin/auth/LoginView.vue")
-        }
+        },
+        {
+            path: trans("PUBLIC_PATH_PAGE_NOT_FOUND"),
+            component: () => import("@/views/PageNotFoundView.vue"),
+            meta: { isImport: true }
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            redirect: trans("PUBLIC_PATH_PAGE_NOT_FOUND")
+        },
     ];
 
     router = createRouter({

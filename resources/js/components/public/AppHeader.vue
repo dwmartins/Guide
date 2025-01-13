@@ -18,7 +18,7 @@ const closeNavbar = () => {
     }
 }
 </script>
-
+resources\assets\images\default\logo.png
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary mx-0 p-0 py-2">
         <div class="container">

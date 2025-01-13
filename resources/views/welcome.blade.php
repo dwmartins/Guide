@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gerador de Landing Page</title>
 
     <!-- font-awesome -->
@@ -23,8 +23,7 @@
 
     @vite([
         'resources/css/app.css', 
-        'resources/css/animations.css',
-        'resources/js/app.js'
+        'resources/css/animations.css'
     ])
 </body>
 </html>
