@@ -19,7 +19,7 @@ class AuthService {
     // function for login for administrators
     async AdminLogin(data) {
         try {
-            return await axios.post("/app/auth/login", data);
+            return await axios.post("/auth/app/login", data);
         } catch (error) {
             showError(error);
             throw error;

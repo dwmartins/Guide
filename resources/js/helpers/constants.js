@@ -13,7 +13,7 @@ export const ACCEPT_ICONS_TO_MESSAGE = "vnd.microsoft.icon, x-icon, jpeg, jpeg, 
 export const MAX_IMG_SIZE = 5;
 export const MAX_ICO_SIZE = 2;
 
-export const MIN_PASSWORD_LENGTH = 4;
+export const MIN_PASSWORD_LENGTH = 6;
 
 export const DEFAULT_LOGO = new URL('@/assets/img/default/logo.png', import.meta.url).href;
 export const DEFAULT_COVER = new URL('@/assets/img/default/coverImage.jpg', import.meta.url).href;

@@ -38,4 +38,40 @@ class AuthController extends Controller {
         $request->session()->regenerateToken();
         return response()->json(['message' => 'Logout bem-sucedido']);
     }
+
+    public function adminLogin(Request $request) {
+        $request->validate([
+            "email" => "required|email",
+            "password" => "required|min:" . config('constants.min_password_length')
+        ]);
+
+        try {
+            $rememberMe = $request->rememberMe ?? false;
+
+            $user = User::where('email', $request->email)->first();
+
+            if($user && $user->active === "Y") {
+                if(!in_array($user->role, config('constants.has_access_app'))) {
+                    return response()->json([
+                        'message' => trans('messages.access_denied')
+                    ], 401);
+                }
+
+                if(Hash::check($request->password, $user->password)) {
+                    $token = JWTManager::generate($user, $rememberMe);
+
+                    return response()->json([
+                        'message' => trans('messages.login_successful'),
+                        'token' => $token,
+                        'user' => $user
+                    ]);
+                }
+            }
+
+            return response()->json(['error' => trans('messages.invalid_credentials')], 401);
+
+        } catch (\Exception $e) {
+            //throw $th;
+        }
+    }
 }

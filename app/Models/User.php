@@ -23,6 +23,22 @@ class User extends Authenticatable
         'email',
         'password',
         'token',
+        'active',
+        'role',
+        'description',
+        'phone',
+        'date_of_birth',
+        'address',
+        'complement',
+        'city',
+        'zip_code',
+        'state',
+        'country',
+        'photo',
+        'accepts_emails',
+        'publish_contact_info',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -44,6 +60,19 @@ class User extends Authenticatable
     {
         return [
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->last_name;
     }
 }
