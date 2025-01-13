@@ -23,8 +23,8 @@ export const userStore = reactive({
         photo: "",
         acceptsEmails: "",
         publishContactInfo: "",
-        createdAt: "",
-        updatedAt: ""
+        created_at: "",
+        updated_at: ""
     },
 
     updateUserLogged(data) {

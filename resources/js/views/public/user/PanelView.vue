@@ -45,7 +45,7 @@ const setGreeting = () => {
                             <p class="custom_dark fw-semibold text-truncate mt-2 mb-0 fulName">{{ user.name }} {{ user.lastName }}</p>
                             <p class="text-secondary fs-8 text-truncate user_email">{{ user.email }}</p>
                             <p class="custom_dark fw-semibold fs-8 text-break mb-0">{{ trans('MEMBER_SINCE') }}:</p>
-                            <p class="text-secondary fs-8 text-break">{{ getDateAsString(user.createdAt) }}</p>
+                            <p class="text-secondary fs-8 text-break">{{ getDateAsString(user.created_at) }}</p>
                             <p v-if="user.city && user.state" class="text-secondary fs-8 text-break">{{ user.city }}, {{ user.state }}</p>
 
                             <router-link :to="trans('PUBLIC_PATH_USER_PROFILE')">
