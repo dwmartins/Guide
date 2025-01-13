@@ -18,6 +18,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "browser-image-compression": "^2.0.2",
         "element-plus": "^2.9.3",
         "js-cookie": "^3.0.5",
         "moment": "^2.30.1",

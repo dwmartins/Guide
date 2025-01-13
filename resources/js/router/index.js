@@ -10,6 +10,7 @@ import { settingsStore } from "@/store/settingsStore";
 import { siteInfoStore } from "@/store/siteInfoStore";
 import { trans } from '../translation';
 import AuthService from "@/services/AuthService";
+import ProfileView from '../views/public/user/ProfileView.vue';
 
 let router = null;
 
@@ -26,6 +27,11 @@ export function initializeRoutes() {
                 {
                     path: trans("PUBLIC_PATH_USER_PANEL"),
                     component: PanelView,
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: trans("PUBLIC_PATH_USER_PROFILE"),
+                    component: ProfileView,
                     meta: { requiresAuth: true }
                 },
             ]
