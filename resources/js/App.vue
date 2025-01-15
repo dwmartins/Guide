@@ -1,10 +1,13 @@
 <template>
     <div>
         <router-view></router-view>
+        <LoadingPage />
     </div>
 </template>
 
 <script setup>
+import LoadingPage from './components/shared/LoadingPage.vue';
+
 </script>
 
 <style scoped>

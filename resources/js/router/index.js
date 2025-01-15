@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { allowedRoles } from "@/helpers/constants";
 import { showAlert } from "@/helpers/showAlert";
 import SEOManager from "@/helpers/SEOManager";
 import PublicLayout from '../layouts/PublicLayout.vue';
 import HomeView from '../views/public/homeView.vue';
 import PanelView from "@/views/public/user/PanelView.vue";
-import { loadingPageStore } from '../store/loadingPageStore';
+import { loadingPageStore } from '@/store/loadingPageStore';
 import { settingsStore } from "@/store/settingsStore";
 import { siteInfoStore } from "@/store/siteInfoStore";
 import { trans } from '../translation';
@@ -28,10 +27,12 @@ export function initializeRoutes() {
                 {
                     path: trans("PUBLIC_PATH_USER_PANEL"),
                     component: PanelView,
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: trans("PUBLIC_PATH_USER_PROFILE"),
                     component: ProfileView,
+                    meta: { requiresAuth: true }
                 },
             ]
         },
@@ -64,7 +65,6 @@ export function initializeRoutes() {
     });
 
     router.beforeEach((to, from, next) => {
-        console.log("aqui")
         const { requiresAuth, requiresAuthAdmin } = to.meta;
         const isEnteringApp = to.path.startsWith('/app') && !from.path.startsWith('/app');
         const maintenanceMode = settingsStore.getSetting('maintenance') === "on";
