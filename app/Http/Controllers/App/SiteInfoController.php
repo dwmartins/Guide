@@ -67,7 +67,7 @@ class SiteInfoController extends Controller {
             ]);
     
             return response()->json([
-                'error' => trans('messages.fatal_error_message'),
+                'message' => trans('messages.fatal_error_message'),
             ], 500);
         }
     }

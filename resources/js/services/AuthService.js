@@ -124,7 +124,7 @@ class AuthService {
         }
 
         try {
-            return await axios.get("/auth/auth", {
+            return await axios.get("/auth", {
                 headers: {
                     "Authorization": this.getBearer()
                 }

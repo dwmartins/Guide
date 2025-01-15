@@ -10,5 +10,8 @@ return [
     'site_information_updated_successfully' => 'Site information updated successfully',
     'access_denied' => 'You do not have permission to access this area.',
     'invalid_credentials' => 'The provided credentials are incorrect.',
-    'login_successful' => 'Login successful'
+    'login_successful' => 'Login successful',
+    'token_invalid' => 'Token not provided or invalid',
+    'session_expired' => 'Your session has expired. Please log in again to continue.',
+    'not_logged' => 'You must be logged in to access this area. Please log in.'
 ];

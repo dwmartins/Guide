@@ -5,3 +5,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("/login", [AuthController::class, 'login']);
 Route::post("/app/login", [AuthController::class, 'adminLogin']);
+Route::get("/", [AuthController::class, 'checkAuth']);
