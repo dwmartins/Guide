@@ -7,6 +7,7 @@ use App\Services\JWTManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller {
     public function login(Request $request) {
@@ -71,7 +72,10 @@ class AuthController extends Controller {
             return response()->json(['error' => trans('messages.invalid_credentials')], 401);
 
         } catch (\Exception $e) {
-            //throw $th;
+            Log::error('Error logging in', [
+                'message' => $e->getMessage(),
+                'request_data' => $request->all()
+            ]);
         }
     }
 }
