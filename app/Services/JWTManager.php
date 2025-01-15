@@ -17,11 +17,9 @@ class JWTManager
             "email"   => $user->email,
         ];
 
-        if ($rememberMe) {
-            $payload["exp"] = time() + (30 * 24 * 60 * 60); // 30 days
-        } else {
-            $payload["exp"] = time() + (24 * 60 * 60); // 1 day
-        }
+        // Remember me: 14 days (2 weeks)
+        // Default login: 4 hours
+        $payload["exp"] = time() + ($rememberMe ? (14 * 24 * 60 * 60) : (4 * 60 * 60));
 
         return JWT::encode($payload, $user->token, 'HS256');
     }

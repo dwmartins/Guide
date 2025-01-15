@@ -84,7 +84,13 @@ export function initializeRoutes() {
         // Function that handles authentication and displays the loading screen
         const handleAuth = () => {
             loadingPageStore.show();
+
             return AuthService.auth()
+                .then(response => {
+                    if(response.authenticated) {
+                        return response;
+                    }
+                })
                 .finally(() => loadingPageStore.hide());
         };
 
@@ -149,11 +155,14 @@ export function initializeRoutes() {
             // Checks if the user is trying to enter the admin area and is authenticated
             handleAuth()
                 .then(response => {
-                    if (checkUserRole(response.data.userData.role)) {
+                    if(response.authenticated && checkUserRole(response.user.role)) {
                         next();
+                    } else {
+                        redirectToLoginAdmin();
                     }
                 })
                 .catch(redirectToLoginAdmin);
+
         } else {
             next();
         }
