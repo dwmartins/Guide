@@ -11,6 +11,7 @@ import { siteInfoStore } from "@/store/siteInfoStore";
 import { trans } from '../translation';
 import AuthService from "@/services/AuthService";
 import ProfileView from '../views/public/user/ProfileView.vue';
+import { hasAccessToTheApp } from '../helpers/constants';
 
 let router = null;
 
@@ -27,23 +28,22 @@ export function initializeRoutes() {
                 {
                     path: trans("PUBLIC_PATH_USER_PANEL"),
                     component: PanelView,
-                    meta: { requiresAuth: true }
                 },
                 {
                     path: trans("PUBLIC_PATH_USER_PROFILE"),
                     component: ProfileView,
-                    meta: { requiresAuth: true }
                 },
             ]
         },
         {
             path: trans("ADMIN_PATH_LOGIN"),
-            component: () => import("@/views/admin/auth/LoginView.vue")
+            component: () => import("@/views/admin/auth/LoginView.vue"),
+            meta: { isImportedView: true }
         },
         {
             path: trans("PUBLIC_PATH_PAGE_NOT_FOUND"),
             component: () => import("@/views/PageNotFoundView.vue"),
-            meta: { isImport: true }
+            meta: { isImportedView: true }
         },
         {
             path: '/:pathMatch(.*)*',
@@ -68,8 +68,9 @@ export function initializeRoutes() {
         const { requiresAuth, requiresAuthAdmin } = to.meta;
         const isEnteringApp = to.path.startsWith('/app') && !from.path.startsWith('/app');
         const maintenanceMode = settingsStore.getSetting('maintenance') === "on";
+
         // checks if an imported component for better performance and adds a loader
-        if(to.meta.isImport) {
+        if(to.meta.isImportedView) {
             loadingPageStore.show();
         }
 
@@ -118,7 +119,7 @@ export function initializeRoutes() {
             const userLogged = AuthService.getUserLogged();
     
             // If the user is logged in and is a superuser, it does not enter maintenance mode
-            if(userLogged && allowedRoles.includes(userLogged.role)) {
+            if(userLogged && hasAccessToTheApp.includes(userLogged.role)) {
                 return true;
             }
             
@@ -131,10 +132,10 @@ export function initializeRoutes() {
             return true;
         };
 
-        // Checks if the user has the appropriate permission to access the route
+        // Checks if the user has the appropriate permission to access the site dashboard
         // Returns false and redirects to the home page if the user does not have permission
-        const checkUserRole = (role) => {
-            if (allowedRoles.includes(role)) {
+        const hasDashboardAccess = (role) => {
+            if (hasAccessToTheApp.includes(role)) {
                 return true;
             } else {
                 showAlert('error', '', trans("ACCESS_DENIED_MESSAGE"));
@@ -155,7 +156,7 @@ export function initializeRoutes() {
             // Checks if the user is trying to enter the admin area and is authenticated
             handleAuth()
                 .then(response => {
-                    if(response.authenticated && checkUserRole(response.user.role)) {
+                    if(response.authenticated && hasDashboardAccess(response.user.role)) {
                         next();
                     } else {
                         redirectToLoginAdmin();
@@ -169,7 +170,7 @@ export function initializeRoutes() {
     });
 
     router.afterEach(() => {
-        loadingPageStore.hide()
+        loadingPageStore.hide();
     });
 
     return router;  

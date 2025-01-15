@@ -36,5 +36,7 @@ export function showError(error) {
         return;
     }
 
-    showAlert('error', '', trans('FATAL_ERROR_MESSAGE'));
+    if(!message) {
+        showAlert('error', '', trans('FATAL_ERROR_MESSAGE'));
+    }
 }
