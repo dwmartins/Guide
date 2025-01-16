@@ -24,6 +24,14 @@ export default defineConfig({
     build: {
         manifest: true,
         outDir: 'public/build',
-        assetsDir: '',
-    }
+        assetsDir: '.',
+        emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                assetFileNames: '[name][extname]',
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].js',
+            },
+        },
+    },
 });
