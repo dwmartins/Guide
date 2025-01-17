@@ -16,7 +16,7 @@ export default async function loadApp() {
     siteInfoStore.updateConstants(siteInfoResponse.data);
     settingsStore.setSettings(settingsResponse.data);
 
-    const language = settingsResponse.data.language || "pt-br";
+    const language = settingsResponse.data.language || "pt-BR";
 
     await setLanguage(language);
 }

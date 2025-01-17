@@ -19,7 +19,7 @@ return new class extends Migration
         });
 
         $settings = [
-            ['name' => 'language', 'value' => 'pt-br'],
+            ['name' => 'language', 'value' => 'pt-BR'],
             ['name' => 'email_sending', 'value' => 'off'],
             ['name' => 'timezone', 'value' => 'America/Sao_Paulo'],
             ['name' => 'date_format', 'value' => 'DD-MM-YYYY'],

@@ -24,10 +24,10 @@ function getElementPlusLocale() {
     let locale;
 
     switch (lang) {
-        case 'pt-br':
+        case 'pt-BR':
             locale = ptBr;
             break;
-        case 'en-us':
+        case 'en':
             locale = en;
             break;
         default:
