@@ -6,32 +6,51 @@ use App\Models\User;
 use App\Services\JWTManager;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller {
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return Response
+     */
     public function login(Request $request) {
         $request->validate([
             "email" => "required|email",
-            "password" => "required"
+            "password" => "required|min:" . config('constants.min_password_length')
         ]);
 
-        $rememberMe = $request->rememberMe ?? false;
+        try {
+            $rememberMe = $request->rememberMe ?? false;
 
-        $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['error' => 'Credenciais inválidas'], 401);
+            if($user && $user->active === "Y") {
+                if(Hash::check($request->password, $user->password)) {
+                    $token = JWTManager::generate($user, $rememberMe);
+
+                    return response()->json([
+                        'message' => trans('messages.login_successful'),
+                        'token' => $token,
+                        'user' => $user
+                    ]);
+                }
+            }
+
+            return response()->json(['message' => trans('messages.invalid_credentials')], 401);
+
+        } catch (\Exception $e) {
+            Log::error('Error logging in', [
+                'message' => $e->getMessage(),
+                'request_data' => $request->all()
+            ]);
+
+            return response()->json([
+                'message' => trans('messages.fatal_error_message'), 
+            ], 500);
         }
-
-        $token = JWTManager::generate($user, $rememberMe);
-
-        return response()->json([
-            'message' => 'Login bem-sucedido',
-            'token' => $token,
-            'userData' => $user
-        ]);
     }
 
     /**
@@ -85,6 +104,11 @@ class AuthController extends Controller {
         }
     }
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @return Response
+     */
     public function adminLogin(Request $request) {
         $request->validate([
             "email" => "required|email",
@@ -114,7 +138,7 @@ class AuthController extends Controller {
                 }
             }
 
-            return response()->json(['error' => trans('messages.invalid_credentials')], 401);
+            return response()->json(['message' => trans('messages.invalid_credentials')], 401);
 
         } catch (\Exception $e) {
             Log::error('Error logging in', [

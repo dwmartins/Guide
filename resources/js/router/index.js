@@ -11,6 +11,7 @@ import { trans } from '../translation';
 import AuthService from "@/services/AuthService";
 import ProfileView from '../views/public/user/ProfileView.vue';
 import { hasAccessToTheApp } from '../helpers/constants';
+import LoginView from '../views/public/auth/LoginView.vue';
 
 let router = null;
 
@@ -25,6 +26,10 @@ export function initializeRoutes() {
                     component: HomeView
                 },
                 {
+                    path: trans("PUBLIC_PATH_LOGIN"),
+                    component: LoginView
+                },
+                {
                     path: trans("PUBLIC_PATH_USER_PANEL"),
                     component: PanelView,
                     meta: { requiresAuth: true }
@@ -33,7 +38,7 @@ export function initializeRoutes() {
                     path: trans("PUBLIC_PATH_USER_PROFILE"),
                     component: ProfileView,
                     meta: { requiresAuth: true }
-                },
+                }
             ]
         },
         {
