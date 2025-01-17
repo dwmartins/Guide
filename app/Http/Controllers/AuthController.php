@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserAccessLog;
 use App\Services\JWTManager;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -30,6 +31,10 @@ class AuthController extends Controller {
             if($user && $user->active === "Y") {
                 if(Hash::check($request->password, $user->password)) {
                     $token = JWTManager::generate($user, $rememberMe);
+
+                    if($user->role !== "support") {
+                        $this->logUserAccess($request, $user);
+                    }
 
                     return response()->json([
                         'message' => trans('messages.login_successful'),
@@ -188,5 +193,13 @@ class AuthController extends Controller {
                 'logout' => true
             ], 401)
         );
+    }
+
+    private function logUserAccess(Request $request, User $user) {
+        UserAccessLog::create([
+            'user_id' => $user->id,
+            'user_agent' => request()->header('User-Agent'),
+            'ip_address' => request()->ip()
+        ]);
     }
 }
